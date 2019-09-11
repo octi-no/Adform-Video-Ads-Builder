@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Browser ZIP</title>
+		<link rel="stylesheet" href="normalize.css" />
+		<link rel="stylesheet" href="skeleton.css" />
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div id="app">
+			<div class="container">
+				<h3>Last ned Adform-annonser som zip</h3>
+
+				<div class="ads">
+					<div class="commonInputs ad">
+						<label>
+							<span class="text"></span>
+							<h4>Prosjektinnstillinger</h4>
+						</label>
+						<label>
+							<span class="text">Prosjektnavn</span>
+							<input type="text" v-model="projectName" />
+						</label>
+						<label>
+							<span class="text">Landingsside</span>
+							<input type="text" v-model="landingPage" />
+						</label>
+					</div>
+					<div v-for="(ad, adIndex) in ads" class="ad" :key="ad.id">
+						<label>
+							<span class="text">Størrelse</span>
+							<h4>{{ ad.width }} : {{ ad.height }}</h4>
+						</label>
+						<label>
+							<span class="text">Fallbackbilde</span>
+							<input
+								type="file"
+								@change="setFile($event, ad)"
+								accept="image/*"
+							/>
+						</label>
+						<label>
+							<span class="text">Vimeo videolenke</span>
+							<input type="text" v-model="ad.video" />
+						</label>
+						<label>
+							<span class="text">Slett</span>
+							<button @click="remove(adIndex)">🚽</button>
+						</label>
+					</div>
+
+					<div class="new-size ad">
+						<label>
+							<span class="text"></span>
+							<h4>Legg til størrelse</h4>
+						</label>
+						<label>
+							<span class="text">Bredde</span>
+							<input
+								type="number"
+								v-model.number="newW"
+								v-on:keyup.enter="newSize"
+							/>
+						</label>
+						<label>
+							<span class="text">Høyde</span>
+							<input
+								type="number"
+								v-model.number="newH"
+								v-on:keyup.enter="newSize"
+							/>
+						</label>
+						<label>
+							<span class="text">Legg til ny størrelse</span>
+							<button @click="newSize">✏️</button>
+						</label>
+					</div>
+				</div>
+				<div>
+					<button @click="download">💾 Last ned ZIP</button>
+				</div>
+			</div>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="script.js"></script>
+		<script src="filesaver.js"></script>
+	</body>
+</html>

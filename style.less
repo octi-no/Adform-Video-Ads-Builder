@@ -1,0 +1,93 @@
+body {
+	margin: 60px 0 180px;
+	padding: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+		'Segoe UI Symbol';
+	font-size: 16px;
+}
+* {
+	box-sizing: border-box;
+}
+.ads {
+	margin: 15px 0 20px;
+	.ad {
+		padding: 20px 20px 0px;
+		border: 1px solid #dfdfdf;
+		margin-bottom: -1px;
+		transition: opacity 0.2s ease-out;
+		opacity: 1;
+		&.inActive {
+			opacity: 0.5;
+		}
+		&:nth-of-type(odd) {
+			background: #f8f8f8;
+		}
+		&.commonInputs {
+			margin: 20px 0;
+			background-color: #d8fff4;
+			border-color: #9ad9c7;
+			color: #007554;
+			h4 {
+				color: #007554;
+			}
+		}
+		&.new-size {
+			background-color: #d8f6ff;
+			border-color: #8ed1e6;
+			margin: 20px 0;
+			color: #00546e;
+
+			button {
+				margin-bottom: 0;
+				font-size: 16px;
+				background: linear-gradient(white, #e6e6e6);
+			}
+		}
+	}
+	label {
+		display: block;
+		margin-bottom: 20px;
+		h4 {
+			display: inline-block;
+			margin: 0;
+			line-height: 1em;
+			font-weight: 500;
+			color: #008fd5;
+			font-size: 30px;
+		}
+	}
+	.text {
+		width: 180px;
+		display: inline-block;
+		margin-right: 10px;
+		text-align: right;
+		font-weight: normal;
+		font-size: 18px;
+	}
+	button {
+		&:hover {
+			background: linear-gradient(#fc4d4d, #b81515);
+			border-color: #660202;
+		}
+	}
+}
+
+button {
+	margin-bottom: 0;
+	font-size: 16px;
+	background: linear-gradient(white, #e6e6e6);
+}
+
+input[type='file'],
+input[type='text'],
+input[type='number'] {
+	width: 350px;
+}
+
+input,
+textarea,
+select,
+fieldset {
+	margin-bottom: 0;
+}

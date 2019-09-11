@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!--Adform Global Clicktag START-->
+		<script type="text/javascript">
+			function adfOpenGlobalClickTAG() {
+				var adfClickTAGName = 'clickTAG',
+					adfClickTAGUrl = '<!--CLICKTAG1-->';
+
+				window.open(
+					dhtml.getVar(adfClickTAGName, adfClickTAGUrl),
+					dhtml.getVar('landingPageTarget', '_blank')
+				);
+			}
+			if (window.document.addEventListener) {
+				window.document.addEventListener(
+					'click',
+					function(e) {
+						if (e.button !== 0) return;
+						e.stopPropagation();
+						e.preventDefault();
+						adfOpenGlobalClickTAG();
+					},
+					true
+				);
+			} else {
+				document.attachEvent('onclick', function() {
+					adfOpenGlobalClickTAG();
+				});
+			}
+		</script>
+		<!--Adform Global Clicktag END-->
+
+		<!-- Adform API Script -->
+		<script type="text/javascript">
+			document.write(
+				'<script src="' +
+					(window.API_URL ||
+						'https://s1.adform.net/banners/scripts/rmb/Adform.DHTML.js?bv=' +
+							Math.random()) +
+					'"><\/script>'
+			);
+		</script>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Ad</title>
+		<style>
+			body {
+				margin: 0;
+				overflow: hidden;
+			}
+			* {
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			video {
+				width: 100%;
+				cursor: pointer;
+			}
+			#banner {
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="ad" id="banner">
+			<!--VIDEO-->
+		</div>
+		<script>
+			//Click Tag definition
+			(function() {
+				var banner = document.getElementById('banner');
+				var clickTAGvalue = dhtml.getVar(
+					'clickTAG',
+					'<!--CLICKTAG2-->'
+				);
+				var landingpagetarget = dhtml.getVar(
+					'landingPageTarget',
+					'_blank'
+				);
+				function onClickHandler() {
+					window.open(clickTAGvalue, landingpagetarget);
+				}
+				banner.addEventListener('click', onClickHandler, false);
+			})();
+		</script>
+		<script>
+			setTimeout(function() {
+				var video = document.querySelector('video');
+				video.removeAttribute('loop');
+				video.currentTime = video.duration;
+			}, 30000);
+		</script>
+	</body>
+</html>
