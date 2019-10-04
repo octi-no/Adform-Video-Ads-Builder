@@ -54,7 +54,9 @@ var vm = new Vue({
 			manifest: {},
 			htmlText: '',
 			newW: 0,
-			newH: 0
+			newH: 0,
+			showWarning: false,
+			warning: ''
 		};
 	},
 	created() {
@@ -77,22 +79,26 @@ var vm = new Vue({
 			ad.image = event.target.files[0];
 		},
 		download() {
+			if (this.landingPage.length < 1 || this.projectName.length < 1) {
+				this.warning = `Mangler enten prosjektnavn eller landingsside 👓`;
+				this.showWarning = true;
+				return;
+			} else {
+				this.showWarning = false;
+			}
 			this.ads
-				.map((ad, adIndex) => {
-					if (!ad.image.name || ad.video.length < 1)
-						console.warn(
-							`No file or vimeo link @ ${ad.width} : ${ad.height} 😜`
-						);
-
-					return ad;
-				})
 				.filter(ad => {
-					return ad.video.length > 0 && ad.image.name;
+					return ad.video.length > 0;
 				})
 				.map(ad => {
 					let zip = new JSZip();
 
-					var videoStr = `<video muted loop autoplay src="${ad.video}" poster="${ad.image.name}"></video>`;
+					if (ad.image) {
+						var videoStr = `<video muted loop autoplay src="${ad.video}" poster="${ad.image.name}"></video>`;
+						zip.file(ad.image.name, ad.image);
+					} else {
+						var videoStr = `<video muted loop autoplay src="${ad.video}" ></video>`;
+					}
 					var htmlVideo = this.htmlText.replace(
 						'<!--VIDEO-->',
 						videoStr
@@ -113,8 +119,6 @@ var vm = new Vue({
 					adManifest.clicktags.clickTAG = this.landingPage;
 
 					zip.file('manifest.json', JSON.stringify(adManifest));
-
-					zip.file(ad.image.name, ad.image);
 
 					zip.generateAsync({ type: 'blob' }).then(blob => {
 						saveAs(

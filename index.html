@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="normalize.css" />
 		<link rel="stylesheet" href="skeleton.css" />
 		<link rel="stylesheet" href="style.css" />
+		<meta name="Description" content="Last ned Adform-annonser som zip" />
 	</head>
 	<body>
 		<div id="app">
@@ -28,6 +29,9 @@
 							<span class="text">Landingsside</span>
 							<input type="text" v-model="landingPage" />
 						</label>
+					</div>
+					<div class="warning-area" v-if="showWarning">
+						{{ warning }}
 					</div>
 					<div v-for="(ad, adIndex) in ads" class="ad" :key="ad.id">
 						<label>
@@ -78,6 +82,9 @@
 							<button @click="newSize">✏️</button>
 						</label>
 					</div>
+				</div>
+				<div class="warning-area" v-if="showWarning">
+					{{ warning }}
 				</div>
 				<div>
 					<button @click="download">💾 Last ned ZIP</button>
