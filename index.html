@@ -29,6 +29,10 @@
 							<span class="text">Landingsside</span>
 							<input type="text" v-model="landingPage" />
 						</label>
+						<label>
+							<span class="text">Bruk lokal video</span>
+							<input type="checkbox" v-model="useLocalVideo" />
+						</label>
 					</div>
 					<div class="warning-area" v-if="showWarning">
 						{{ warning }}
@@ -46,8 +50,16 @@
 								accept="image/*"
 							/>
 						</label>
-						<label>
-							<span class="text">Vimeo videolenke</span>
+						<label v-if="useLocalVideo">
+							<span class="text">Video</span>
+							<input
+								type="file"
+								@change="setLocalVideo($event, ad)"
+								accept="video/*"
+							/>
+						</label>
+						<label v-else>
+							<span class="text">Videolenke</span>
 							<input type="text" v-model="ad.video" />
 						</label>
 						<label>

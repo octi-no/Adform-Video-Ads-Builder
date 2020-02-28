@@ -11,6 +11,7 @@ var vm = new Vue({
 					height: 250,
 					video: '',
 					image: '',
+					localFile: '',
 					id: this.idGenerator()
 				},
 				{
@@ -18,6 +19,7 @@ var vm = new Vue({
 					height: 400,
 					video: '',
 					image: '',
+					localFile: '',
 					id: this.idGenerator()
 				},
 				{
@@ -25,6 +27,7 @@ var vm = new Vue({
 					height: 400,
 					video: '',
 					image: '',
+					localFile: '',
 					id: this.idGenerator()
 				},
 				{
@@ -32,6 +35,7 @@ var vm = new Vue({
 					height: 500,
 					video: '',
 					image: '',
+					localFile: '',
 					id: this.idGenerator()
 				},
 				{
@@ -39,6 +43,7 @@ var vm = new Vue({
 					height: 600,
 					video: '',
 					image: '',
+					localFile: '',
 					id: this.idGenerator()
 				},
 				{
@@ -46,11 +51,13 @@ var vm = new Vue({
 					height: 300,
 					video: '',
 					image: '',
+					localFile: '',
 					id: this.idGenerator()
 				}
 			],
 			landingPage: '',
 			projectName: '',
+			useLocalVideo: false,
 			manifest: {},
 			htmlText: '',
 			newW: 0,
@@ -78,6 +85,9 @@ var vm = new Vue({
 		setFile(event, ad) {
 			ad.image = event.target.files[0]
 		},
+		setLocalVideo(event, ad) {
+			ad.localFile = event.target.files[0]
+		},
 		download() {
 			if (this.landingPage.length < 1 || this.projectName.length < 1) {
 				this.warning = `Mangler enten prosjektnavn eller landingsside 👓`
@@ -88,17 +98,26 @@ var vm = new Vue({
 			}
 			this.ads
 				.filter(ad => {
-					return ad.video.length > 0
+					return ad.video.length > 0 || ad.localFile
 				})
 				.map(ad => {
 					let zip = new JSZip()
 
+					var videoStr = `<video muted loop autoplay playsinline `
 					if (ad.image) {
-						var videoStr = `<video muted loop autoplay playsinline src="${ad.video}" poster="${ad.image.name}"></video>`
+						videoStr += ` poster="${ad.image.name}"`
 						zip.file(ad.image.name, ad.image)
-					} else {
-						var videoStr = `<video muted loop autoplay playsinline src="${ad.video}" ></video>`
 					}
+
+					if (this.useLocalVideo && ad.localFile) {
+						zip.file(ad.localFile.name, ad.localFile)
+						videoStr += ` src="${ad.localFile.name}"`
+					} else {
+						videoStr += ` src="${ad.video}"`
+					}
+
+					videoStr += '></video>'
+
 					var htmlVideo = this.htmlText.replace(
 						'<!--VIDEO-->',
 						videoStr
@@ -137,6 +156,7 @@ var vm = new Vue({
 				width: this.newW,
 				height: this.newH,
 				video: '',
+				localFile: '',
 				image: '',
 				id: this.idGenerator()
 			})
