@@ -1,5 +1,5 @@
-import('./jszip.min.js');
-import('./filesaver.js');
+import('./jszip.min.js')
+import('./filesaver.js')
 
 var vm = new Vue({
 	el: '#app',
@@ -57,81 +57,81 @@ var vm = new Vue({
 			newH: 0,
 			showWarning: false,
 			warning: ''
-		};
+		}
 	},
 	created() {
 		fetch('manifest.json')
 			.then(blob => blob.json())
 			.then(json => {
-				this.manifest = JSON.stringify(json);
-			});
+				this.manifest = JSON.stringify(json)
+			})
 		fetch('html.txt')
 			.then(blob => blob.text())
 			.then(txt => {
-				this.htmlText = txt;
-			});
+				this.htmlText = txt
+			})
 	},
 	methods: {
 		remove(index) {
-			this.ads.splice(index, 1);
+			this.ads.splice(index, 1)
 		},
 		setFile(event, ad) {
-			ad.image = event.target.files[0];
+			ad.image = event.target.files[0]
 		},
 		download() {
 			if (this.landingPage.length < 1 || this.projectName.length < 1) {
-				this.warning = `Mangler enten prosjektnavn eller landingsside 👓`;
-				this.showWarning = true;
-				return;
+				this.warning = `Mangler enten prosjektnavn eller landingsside 👓`
+				this.showWarning = true
+				return
 			} else {
-				this.showWarning = false;
+				this.showWarning = false
 			}
 			this.ads
 				.filter(ad => {
-					return ad.video.length > 0;
+					return ad.video.length > 0
 				})
 				.map(ad => {
-					let zip = new JSZip();
+					let zip = new JSZip()
 
 					if (ad.image) {
-						var videoStr = `<video muted loop autoplay src="${ad.video}" poster="${ad.image.name}"></video>`;
-						zip.file(ad.image.name, ad.image);
+						var videoStr = `<video muted loop autoplay playsinline src="${ad.video}" poster="${ad.image.name}"></video>`
+						zip.file(ad.image.name, ad.image)
 					} else {
-						var videoStr = `<video muted loop autoplay src="${ad.video}" ></video>`;
+						var videoStr = `<video muted loop autoplay src="${ad.video}" ></video>`
 					}
 					var htmlVideo = this.htmlText.replace(
 						'<!--VIDEO-->',
 						videoStr
-					);
+					)
 					htmlVideo = htmlVideo.replace(
 						'<!--CLICKTAG1-->',
 						this.landingPage
-					);
+					)
 					htmlVideo = htmlVideo.replace(
 						'<!--CLICKTAG2-->',
 						this.landingPage
-					);
-					zip.file('index.html', htmlVideo);
+					)
+					zip.file('index.html', htmlVideo)
 
-					var adManifest = JSON.parse(this.manifest);
-					adManifest.width = ad.width;
-					adManifest.height = ad.height;
-					adManifest.clicktags.clickTAG = this.landingPage;
+					var adManifest = JSON.parse(this.manifest)
+					adManifest.width = ad.width
+					adManifest.height = ad.height
+					adManifest.clicktags.clickTAG = this.landingPage
 
-					zip.file('manifest.json', JSON.stringify(adManifest));
+					zip.file('manifest.json', JSON.stringify(adManifest))
 
 					zip.generateAsync({ type: 'blob' }).then(blob => {
 						saveAs(
 							blob,
 							`${this.projectName} – ${ad.width}x${ad.height}.zip`
-						);
-					});
-				});
+						)
+					})
+				})
 		},
 		newSize(event) {
 			if (!this.newW || !this.newH) {
-				console.warn('Skriv inn både bredde og høyde');
-				return;
+				console.warn('Skriv inn både bredde og høyde')
+				return
 			}
 			this.ads.push({
 				width: this.newW,
@@ -139,7 +139,7 @@ var vm = new Vue({
 				video: '',
 				image: '',
 				id: this.idGenerator()
-			});
+			})
 		},
 		idGenerator() {
 			return (
@@ -150,7 +150,7 @@ var vm = new Vue({
 				Math.random()
 					.toString(36)
 					.substr(2, 9)
-			);
+			)
 		}
 	}
-});
+})
