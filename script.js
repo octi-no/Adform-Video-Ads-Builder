@@ -97,7 +97,7 @@ var vm = new Vue({
 						var videoStr = `<video muted loop autoplay playsinline src="${ad.video}" poster="${ad.image.name}"></video>`
 						zip.file(ad.image.name, ad.image)
 					} else {
-						var videoStr = `<video muted loop autoplay src="${ad.video}" ></video>`
+						var videoStr = `<video muted loop autoplay playsinline src="${ad.video}" ></video>`
 					}
 					var htmlVideo = this.htmlText.replace(
 						'<!--VIDEO-->',
